@@ -2,9 +2,14 @@
 #define _GUOJTIM_MATRIX 1
 
 #include "Num.h"
+#include "LaTeX.h"
 #include <iostream>
 #include <iomanip>
 using namespace std;
+
+//class LaTeX;
+
+
 
 class rowVector{
 	public:
@@ -46,12 +51,17 @@ class Matrix{
 		enum MatrixType type;
 		vector<rowVector> colVector;
 		int R,C;
-		Matrix(int r,int c){
+		
+		LaTeX *LTX;
+		
+		
+		Matrix(int r,int c,LaTeX *LTX=NULL):LTX(LTX){
 			type = MATRIX;
 			R=r;C=c;
 			for(int i = 0 ; i < r;i++) colVector.push_back(rowVector(c));
 		}
 		Matrix(const Matrix&m){
+			LTX = (m.LTX);
 			type = m.type;
 			R=m.R;C=m.C;
 			colVector = m.colVector;
@@ -74,8 +84,32 @@ class Matrix{
 			return colVector[i].getValue(j);
 		}
 	
+		void write(){
+			if(LTX == NULL) return;
+			
+			LTX->addText("\\begin{bmatrix} ");
+			
+			for(int i = 0 ; i < R;i++){
+				for(int j = 0 ; j < C;j++){
+					if(j) LTX->addText(" & ");
+					LTX->addText(colVector[i].getValue(j).getLaTeX());
+				}
+				if(i != R-1) LTX->addText("\\\\ \n");
+			}
+			
+			
+			LTX->addText("\\end{bmatrix} \\\\");
+			
+		}
 		
 		void formatted(){
+			write();
+			/*
+			/begin{bmatrix}
+			
+			
+			/end{bmatrix}
+			*/
 			if (R == 1){
 				printf("¡e");
 				for(int i = 0 ;i < C;i++){

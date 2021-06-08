@@ -4,6 +4,7 @@
 #include "Elimination.h"
 #include "Num.h"
 #include "Matrix.h"
+#include "LaTeX.h"
 #include <math.h>
 #include <set>
 #include <map>
@@ -53,9 +54,13 @@ class LinearEquation{
 		vector<Equation> eq;
 		set<int> variable;
 		vector<Num> constNum;
-		LinearEquation(){}
+		
+		LaTeX *LTX;
+		
+		LinearEquation(LaTeX *LTX = NULL):LTX(LTX){}
 		addEquation(string s){
 			Equation neq = Equation(s);
+			if(LTX!=NULL) LTX->addText("\\text{"+s+"}\\\\"); 
 			for(int i = 0 ; i < neq.variable.size();i++){
 				variable.insert(neq.variable[i]);
 			}
@@ -64,7 +69,7 @@ class LinearEquation{
 		}
 		
 		Solve(){
-			Matrix m = Matrix(eq.size(),variable.size());
+			Matrix m = Matrix(eq.size(),variable.size(),LTX);
 			for(int i = 0 ; i < eq.size();i++){
 				int j = 0;
 				for(set<int>::iterator it = variable.begin();it != variable.end();it++,j++){
@@ -72,18 +77,22 @@ class LinearEquation{
 				}
 			}
 			AugmentMatrix am = AugmentMatrix(m,constNum);
-			Elimination em = Elimination(am);
+			Elimination em = Elimination(am,LTX);
 			em.GaussJordanElimination();
 			
 			if (noSolution(em.m)){
-				cout << "these linear equations has no solution" << endl;
+				if(LTX != NULL) LTX->addText("\\text{systems of linear equations with no solution}\\\\");
+				cout << "systems of linear equations with no solution" << endl;
 			}else if (oneSolution(em.m)){
-				cout << "these linear equations has only 1 soluiton:" << endl;
+				if(LTX != NULL) LTX->addText("\\text{systems of linear equations with 1 solution}\\\\");
+				cout << "systems of linear equations with 1 solution" << endl;
 				int j = 0;
 				for(set<int>::iterator it = variable.begin();it != variable.end();it++,j++){
+					if(LTX != NULL) LTX->addText((char)(*it+'a') + string("=") + em.m.getValue(j,am.C-1).getLaTeX() + string("\\\\"));
 					cout << char(*it+'a') << "=" << em.m.getValue(j,am.C-1).getValue() << endl;
 				}
 			}else{
+				if(LTX != NULL) LTX->addText("\\text{systems of linear equations with inf solutions}\\\\");
 				cout << "inf solution" << endl;
 				int temp = 1;
 				map<int,int> var;
@@ -101,19 +110,27 @@ class LinearEquation{
 					
 					for(int j = leadingone+1;j < em.m.C-1;j++){
 						if(!em.m.getValue(i,j).isZero() && !var[j]){
+							if(LTX != NULL) LTX->addText(string("let \\space ")+(char)((*variable.begin()+j)+'a')+string("= (temp")+to_string(temp)+string(") \\in R \\\\"));
 							cout << "let " << char((*variable.begin()+j)+'a') << "= (temp" << temp << ") in RealNumber." << endl;
 							var[j] = temp++;
 						}
 					}
-					
-					cout << char((*variable.begin()+leadingone)+'a') << " = " << em.m.getValue(i,em.m.C-1).getValue();
+					if(LTX != NULL) LTX->addText((char)((*variable.begin()+leadingone)+'a')+string("=")+(em.m.getValue(i,em.m.C-1).isZero() ? "" : em.m.getValue(i,em.m.C-1).getLaTeX()));
+					cout << char((*variable.begin()+leadingone)+'a') << " = " << (em.m.getValue(i,em.m.C-1).isZero() ? "" : em.m.getValue(i,em.m.C-1).getValue());
 					for(int k = leadingone+1 ; k < em.m.C-1;k++){
-						if(var[k]){
+						if(var[k] && !em.m.getValue(i,k).isZero()){
 							Num n = em.m.getValue(i,k) * Num(-1);
-							if (!n.minus) cout << "+" << n.getValue() << "(temp" << var[k] << ")";
-							else cout << n.getValue() << "(temp" << var[k] << ")";
+							if (!n.minus) {
+								if(LTX != NULL) LTX->addText("+" + n.getLaTeX() + "(temp" + to_string(var[k]) + ")");
+								cout << "+" << n.getValue() << "(temp" << var[k] << ")";
+							}
+							else {
+								if(LTX != NULL) LTX->addText(n.getLaTeX() + "(temp" + to_string(var[k]) + ")");
+								cout << n.getValue() << "(temp" << var[k] << ")";
+							}
 						}
 					}
+					if(LTX != NULL) LTX->addText("\\\\");
 					cout << endl;
 				}
 			}		

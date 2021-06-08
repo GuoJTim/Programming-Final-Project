@@ -1,13 +1,14 @@
 #ifndef _GUOJTIM_INVERSEMATRIX
 #define _GUOJTIM_INVERSEMATRIX 1
 
+#include "LaTeX.h"
 #include "Matrix.h"
 typedef struct Result{
 	Matrix m;
 	bool isInverse;
 };
 class InverseMatrix:public Matrix{
-	public:
+	public:	
 		InverseMatrix(Matrix x):Matrix(x){
 			if(type != MATRIX) return;
 			type = INVERSE;

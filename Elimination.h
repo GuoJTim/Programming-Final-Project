@@ -1,6 +1,7 @@
 #ifndef _GUOJTIM_ELIMINATION
 #define _GUOJTIM_ELIMINATION 1
 
+#include "LaTeX.h"
 
 #include "Matrix.h"
 #include <iostream>
@@ -13,11 +14,19 @@ class Solution{
 		enum Stype prevType;
 		Matrix matrix;
 		Num t1=0,t2=0,t3=0;
-		Solution(Matrix m,Stype type=START,Num t1 = 0,Num t2 = 0,Num t3 = 0):matrix(m),
+		LaTeX *LTX;
+		Solution(Matrix m,LaTeX *LTX=NULL,Stype type=START,Num t1 = 0,Num t2 = 0,Num t3 = 0):matrix(m),
 		prevType(type),t1(t1),t2(t2),t3(t3){
+			
 			if(type == SWAP) cout << "swap " << t1.getValue() << " <-> " << t2.getValue() << endl;
 			if(type == MULTI) cout << "multi " << t1.getValue() << " value: " << t2.getValue() << endl;
 			if(type == ADDTO) cout << "add " << t1.getValue() << " to " << t2.getValue() << " by value " << t3.getValue() << endl; 
+			if(LTX != NULL)
+			{
+				if(type == SWAP) LTX->addText("\\xrightarrow{\\text{swap " + t1.getValue() + " <-> " + t2.getValue() + "}} ");
+				if(type == MULTI) LTX->addText("\\xrightarrow{\\text{multi " +t1.getValue()+" value: " + t2.getValue() + "}} ");
+				if(type == ADDTO) LTX->addText("\\xrightarrow{\\text{add " + t1.getValue() + " to " + t2.getValue() + " by value " +t3.getValue() + "}} ");
+			}
 			m.formatted();
 		}
 };
@@ -25,8 +34,11 @@ class Elimination{
 	public:
 		vector<Solution> sols;
 		Matrix m;
-		Elimination(Matrix m):m(m){
-			sols.push_back(Solution(m));
+		
+		LaTeX *LTX;
+		
+		Elimination(Matrix m,LaTeX *LTX=NULL):m(m),LTX(LTX){
+			sols.push_back(Solution(m,LTX));
 		}
 		GaussElimination(){
 			int j = 0;
@@ -36,7 +48,7 @@ class Elimination{
 						for(int k = i+1 ; k < m.R;k++){
 							if(!m.getValue(k,j).isZero()) {
 								m.swap(j,k);
-								sols.push_back(Solution(m,SWAP,j,k));
+								sols.push_back(Solution(m,LTX,SWAP,j,k));
 								break;
 							}
 						}
@@ -48,14 +60,14 @@ class Elimination{
 						Num dis = m.getValue(i,j);
 						dis = dis.reciprocal();
 						m.multiply(i,dis);
-						sols.push_back(Solution(m,MULTI,i,dis));
+						sols.push_back(Solution(m,LTX,MULTI,i,dis));
 					}
 					for(int k = i+1; k < m.R;k++){
 						//if (k >= m.R || i >= m.C) continue;
 						if(m.getValue(k,j).isZero()) continue;
 						Num dis = m.getValue(k,j)*Num(-1);
 						m.addto(i,k,dis);
-						sols.push_back(Solution(m,ADDTO,i,k,dis));
+						sols.push_back(Solution(m,LTX,ADDTO,i,k,dis));
 					}
 					break;
 				}
@@ -72,7 +84,7 @@ class Elimination{
 						for(int k = i-1;k >= 0 ; k--){
 							Num dis = m.getValue(k,j)*Num(-1);
 							m.addto(i,k,dis);
-							sols.push_back(Solution(m,ADDTO,i,k,dis));
+							sols.push_back(Solution(m,LTX,ADDTO,i,k,dis));
 						}
 					}
 					break;

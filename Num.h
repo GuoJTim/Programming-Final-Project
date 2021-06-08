@@ -8,6 +8,7 @@
 
 #include "LongNum.h"
 
+
 using namespace std;
 
 class Num{
@@ -199,7 +200,11 @@ class Num{
 		}
 		
 		
-		
+		string getLaTeX(){
+			if(this->TOP == 0) return "0";
+			if(this->BOT == 1) return  (this->minus? "-":"")+ itos(this->TOP);
+			return (this->minus? "-":"") + string("{ ")+itos(this->TOP) + string("\\over ")+ itos(this->BOT)+ string("}");
+		}
 		
 		string getValue(){
 			if(this->TOP == 0) return "0";
