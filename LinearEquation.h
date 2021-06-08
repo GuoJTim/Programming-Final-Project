@@ -75,9 +75,6 @@ class LinearEquation{
 			Elimination em = Elimination(am);
 			em.GaussJordanElimination();
 			
-			
-			//if there has a row that has coeifficion row are 0
-			// [0 0 0 1] -> 0x+0y+0z=1 no solution
 			if (noSolution(em.m)){
 				cout << "these linear equations has no solution" << endl;
 			}else if (oneSolution(em.m)){

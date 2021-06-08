@@ -40,15 +40,19 @@ class rowVector{
 		}
 };
 
+enum MatrixType{MATRIX,AUGMENT,INVERSE};
 class Matrix{ 
 	public:
+		enum MatrixType type;
 		vector<rowVector> colVector;
 		int R,C;
 		Matrix(int r,int c){
+			type = MATRIX;
 			R=r;C=c;
 			for(int i = 0 ; i < r;i++) colVector.push_back(rowVector(c));
 		}
 		Matrix(const Matrix&m){
+			type = m.type;
 			R=m.R;C=m.C;
 			colVector = m.colVector;
 		}
@@ -69,7 +73,7 @@ class Matrix{
 		Num getValue(int i,int j){
 			return colVector[i].getValue(j);
 		}
-		
+	
 		
 		void formatted(){
 			if (R == 1){
@@ -99,26 +103,12 @@ class Matrix{
 class AugmentMatrix:public Matrix{
 	public:
 		AugmentMatrix(Matrix x,vector<Num> constMatrix):Matrix(x){
+			if(type != MATRIX) return;
+			type=AUGMENT;
 			for(int i = 0;i<R;i++){
 				colVector[i].v.push_back(constMatrix[i]);
 			}
 			C++;
 		}
 };
-
-class AugmentInverse:public Matrix{
-	public:
-		AugmentInverse(Matrix x):Matrix(x){
-			// to know if want to find a inverse matrix A^-1 , A must be square matrix
-			//
-			//
-			for(int i = 0;i<R;i++){
-				for(int j = 0 ; j <C;j++){
-					if(i==j) colVector[i].v.push_back(1);
-					else colVector[i].v.push_back(0);
-				}
-			}
-			C*=2;
-		}
-}; 
 #endif
