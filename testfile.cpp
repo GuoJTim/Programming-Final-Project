@@ -19,13 +19,12 @@ int main(){
 //		}
 //	}
 //	
-//	AugmentInverse AI = AugmentInverse(m);
-//	Elimination state = Elimination(AI);	
+//	//AugmentInverse AI = AugmentInverse(m);
+//	Elimination state = Elimination(m);	
 //	state.GaussJordanElimination();
 	LinearEquation system = LinearEquation();
-	system.addEquation("a+b-5c=3");
-	system.addEquation("a-2c=1");
-	system.addEquation("2a-b-c=0");
+	system.addEquation("a+b+c+d=5");
+	system.addEquation("c-d=1");
 	system.Solve();
 
 }

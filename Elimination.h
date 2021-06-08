@@ -15,6 +15,9 @@ class Solution{
 		Num t1=0,t2=0,t3=0;
 		Solution(Matrix m,Stype type=START,Num t1 = 0,Num t2 = 0,Num t3 = 0):matrix(m),
 		prevType(type),t1(t1),t2(t2),t3(t3){
+			if(type == SWAP) cout << "swap " << t1.getValue() << " <-> " << t2.getValue() << endl;
+			if(type == MULTI) cout << "multi " << t1.getValue() << " value: " << t2.getValue() << endl;
+			if(type == ADDTO) cout << "add " << t1.getValue() << " to " << t2.getValue() << " by value " << t3.getValue() << endl; 
 			m.formatted();
 		}
 };
@@ -60,6 +63,7 @@ class Elimination{
 		}
 		GaussJordanElimination(){
 			GaussElimination();
+			cout << endl;
 			for(int i = m.R -1 ; i >= 0 ; i--){
 				for(int j = 0 ; j < m.C;j++){
 					if(m.getValue(i,j).isZero()) continue;
@@ -70,7 +74,8 @@ class Elimination{
 							m.addto(i,k,dis);
 							sols.push_back(Solution(m,ADDTO,i,k,dis));
 						}
-					}else break;
+					}
+					break;
 				}
 			}
 		}
