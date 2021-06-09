@@ -1,5 +1,21 @@
-\text{a+b+c+d+e+f+g+h+4i=0}\\\text{4a+9i=1}\\\begin{bmatrix} 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 4 & 0\\ 
-4 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 9 & 1\end{bmatrix} \\\xrightarrow{\text{add 0 to 1 by value -4}} \begin{bmatrix} 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 4 & 0\\ 
-0 & -4 & -4 & -4 & -4 & -4 & -4 & -4 & -7 & 1\end{bmatrix} \\\xrightarrow{\text{multi 1 value: -1/4}} \begin{bmatrix} 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 4 & 0\\ 
-0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & { 7\over 4} & -{ 1\over 4}\end{bmatrix} \\\xrightarrow{\text{add 1 to 0 by value -1}} \begin{bmatrix} 1 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & { 9\over 4} & { 1\over 4}\\ 
-0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & { 7\over 4} & -{ 1\over 4}\end{bmatrix} \\\text{systems of linear equations with inf solutions}\\let \space c= (temp1) \in R \\let \space d= (temp2) \in R \\let \space e= (temp3) \in R \\let \space f= (temp4) \in R \\let \space g= (temp5) \in R \\let \space h= (temp6) \in R \\let \space i= (temp7) \in R \\b=-{ 1\over 4}-1(temp1)-1(temp2)-1(temp3)-1(temp4)-1(temp5)-1(temp6)-{ 7\over 4}(temp7)\\a={ 1\over 4}-{ 9\over 4}(temp7)\\
+\begin{bmatrix} 10 & 5 & -7 & 1 & 0 & 0\\ 
+-5 & 1 & 4 & 0 & 1 & 0\\ 
+3 & 2 & -2 & 0 & 0 & 1\end{bmatrix} \\\xrightarrow{\text{multi 0 value: 1/10}} \begin{bmatrix} 1 & { 1\over 2} & -{ 7\over 10} & { 1\over 10} & 0 & 0\\ 
+-5 & 1 & 4 & 0 & 1 & 0\\ 
+3 & 2 & -2 & 0 & 0 & 1\end{bmatrix} \\\xrightarrow{\text{add 0 to 1 by value 5}} \begin{bmatrix} 1 & { 1\over 2} & -{ 7\over 10} & { 1\over 10} & 0 & 0\\ 
+0 & { 7\over 2} & { 1\over 2} & { 1\over 2} & 1 & 0\\ 
+3 & 2 & -2 & 0 & 0 & 1\end{bmatrix} \\\xrightarrow{\text{add 0 to 2 by value -3}} \begin{bmatrix} 1 & { 1\over 2} & -{ 7\over 10} & { 1\over 10} & 0 & 0\\ 
+0 & { 7\over 2} & { 1\over 2} & { 1\over 2} & 1 & 0\\ 
+0 & { 1\over 2} & { 1\over 10} & -{ 3\over 10} & 0 & 1\end{bmatrix} \\\xrightarrow{\text{multi 1 value: 2/7}} \begin{bmatrix} 1 & { 1\over 2} & -{ 7\over 10} & { 1\over 10} & 0 & 0\\ 
+0 & 1 & { 1\over 7} & { 1\over 7} & { 2\over 7} & 0\\ 
+0 & { 1\over 2} & { 1\over 10} & -{ 3\over 10} & 0 & 1\end{bmatrix} \\\xrightarrow{\text{add 1 to 2 by value -1/2}} \begin{bmatrix} 1 & { 1\over 2} & -{ 7\over 10} & { 1\over 10} & 0 & 0\\ 
+0 & 1 & { 1\over 7} & { 1\over 7} & { 2\over 7} & 0\\ 
+0 & 0 & { 1\over 35} & -{ 13\over 35} & -{ 1\over 7} & 1\end{bmatrix} \\\xrightarrow{\text{multi 2 value: 35}} \begin{bmatrix} 1 & { 1\over 2} & -{ 7\over 10} & { 1\over 10} & 0 & 0\\ 
+0 & 1 & { 1\over 7} & { 1\over 7} & { 2\over 7} & 0\\ 
+0 & 0 & 1 & -13 & -5 & 35\end{bmatrix} \\\xrightarrow{\text{add 2 to 1 by value -1/7}} \begin{bmatrix} 1 & { 1\over 2} & -{ 7\over 10} & { 1\over 10} & 0 & 0\\ 
+0 & 1 & 0 & 2 & 1 & -5\\ 
+0 & 0 & 1 & -13 & -5 & 35\end{bmatrix} \\\xrightarrow{\text{add 2 to 0 by value 7/10}} \begin{bmatrix} 1 & { 1\over 2} & 0 & -9 & -{ 7\over 2} & { 49\over 2}\\ 
+0 & 1 & 0 & 2 & 1 & -5\\ 
+0 & 0 & 1 & -13 & -5 & 35\end{bmatrix} \\\xrightarrow{\text{add 1 to 0 by value -1/2}} \begin{bmatrix} 1 & 0 & 0 & -10 & -4 & 27\\ 
+0 & 1 & 0 & 2 & 1 & -5\\ 
+0 & 0 & 1 & -13 & -5 & 35\end{bmatrix} \\

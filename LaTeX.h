@@ -20,9 +20,6 @@ class LaTeX{
 			add << s;
 			add.close();
 		}
-		
-		~LaTeX(){
-		}
 };
 
 
