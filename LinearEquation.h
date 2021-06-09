@@ -110,13 +110,14 @@ class LinearEquation{
 					
 					for(int j = leadingone+1;j < em.m.C-1;j++){
 						if(!em.m.getValue(i,j).isZero() && !var[j]){
-							if(LTX != NULL) LTX->addText(string("let \\space ")+(char)((*variable.begin()+j)+'a')+string("= (temp")+to_string(temp)+string(") \\in R \\\\"));
-							cout << "let " << char((*variable.begin()+j)+'a') << "= (temp" << temp << ") in RealNumber." << endl;
+							if(LTX != NULL) LTX->addText(string("let \\space ")+getVariable(j)+string("= (temp")+to_string(temp)+string(") \\in R \\\\"));
+							
+							cout << "let " << getVariable(j) << "= (temp" << temp << ") in RealNumber." << endl;
 							var[j] = temp++;
 						}
 					}
-					if(LTX != NULL) LTX->addText((char)((*variable.begin()+leadingone)+'a')+string("=")+(em.m.getValue(i,em.m.C-1).isZero() ? "" : em.m.getValue(i,em.m.C-1).getLaTeX()));
-					cout << char((*variable.begin()+leadingone)+'a') << " = " << (em.m.getValue(i,em.m.C-1).isZero() ? "" : em.m.getValue(i,em.m.C-1).getValue());
+					if(LTX != NULL) LTX->addText(getVariable(leadingone)+string("=")+(em.m.getValue(i,em.m.C-1).isZero() ? "" : em.m.getValue(i,em.m.C-1).getLaTeX()));
+					cout << getVariable(leadingone) << " = " << (em.m.getValue(i,em.m.C-1).isZero() ? "" : em.m.getValue(i,em.m.C-1).getValue());
 					for(int k = leadingone+1 ; k < em.m.C-1;k++){
 						if(var[k] && !em.m.getValue(i,k).isZero()){
 							Num n = em.m.getValue(i,k) * Num(-1);
@@ -136,6 +137,12 @@ class LinearEquation{
 			}		
 		}
 		
+		char getVariable(int index){
+			int z = 0;
+			for(set<int>::iterator it = variable.begin();it != variable.end();it++,z++){
+				if(z == index) return *it+'a';
+			}
+		}
 		
 		bool noSolution(Matrix m){
 			bool nosol = false;
